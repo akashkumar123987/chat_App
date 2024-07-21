@@ -16,17 +16,10 @@ const PORT = process.env.PORT || 5000;
 app.use(express.urlencoded({extended:true}));
 app.use(express.json()); 
 app.use(cookieParser());
-const corsOptions = {
-    origin: 'https://chat-app-3-9yo7.onrender.com', 
-    credentials: true, 
-    optionsSuccessStatus: 200, 
+const corsOption={
+    origin:'https://chat-app-3-9yo7.onrender.com',
+    credentials:true
 };
-
-// Applying CORS middleware
-app.use(cors(corsOptions));
-
-// Handle preflight requests
-app.options('*', cors(corsOptions)); 
 app.use(cors(corsOption)); 
 
 
