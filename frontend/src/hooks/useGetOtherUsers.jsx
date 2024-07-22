@@ -10,27 +10,26 @@ const useGetOtherUsers = () => {
     useEffect(() => {
         const fetchOtherUsers = async () => {
             try {
-                const token = localStorage.getItem('authToken'); // Make sure you have the token
-                axios.defaults.withCredentials = true;
+                const token = localStorage.getItem('token');
                 const res = await axios.get(`${BASE_URL}/api/v1/user`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
                     },
+                    withCredentials: true
                 });
-                console.log("other users -> ", res.data);
                 dispatch(setOtherUsers(res.data));
             } catch (error) {
-                console.log('Error fetching other users:', error);
+                console.error("Error fetching other users: ", error);
                 if (error.response) {
-                    console.log('Response data:', error.response.data);
-                    console.log('Response status:', error.response.status);
-                    console.log('Response headers:', error.response.headers);
+                    console.error("Response data: ", error.response.data);
+                    console.error("Response status: ", error.response.status);
+                    console.error("Response headers: ", error.response.headers);
                 }
             }
-        };
-
+        }
         fetchOtherUsers();
-    }, [dispatch]); // Make sure to include dispatch in the dependency array
-};
+    }, [dispatch]);
+}
 
 export default useGetOtherUsers;
