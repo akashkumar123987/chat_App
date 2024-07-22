@@ -23,14 +23,18 @@ const Login = () => {
         },
         withCredentials: true
       });
-      
-      dispatch(setAuthUser(res.data));
+      // Save the token in localStorage
+      localStorage.setItem('token', res.data.token);
       navigate("/");
-      toast.success("Login successful");
+      dispatch(setAuthUser(res.data));
     } catch (error) {
-      toast.error(error.response?.data?.message || "An error occurred");
-      console.error(error);
+      toast.error(error.response.data.message);
+      console.log(error);
     }
+    setUser({
+      username: "",
+      password: ""
+    });
   }
 
   return (
@@ -47,9 +51,7 @@ const Login = () => {
               onChange={(e) => setUser({ ...user, username: e.target.value })}
               className='w-full h-10 input input-bordered'
               type="text"
-              placeholder='Username' 
-              required
-            />
+              placeholder='Username' />
           </div>
           <div>
             <label className='p-2 label'>
@@ -60,18 +62,16 @@ const Login = () => {
               onChange={(e) => setUser({ ...user, password: e.target.value })}
               className='w-full h-10 input input-bordered'
               type="password"
-              placeholder='Password' 
-              required
-            />
+              placeholder='Password' />
           </div>
-          <p className='my-2 text-center'>Don't have an account? <Link to="/signup">Sign up</Link></p>
+          <p className='my-2 text-center'>Don't have an account? <Link to="/signup"> signup </Link></p>
           <div>
             <button type="submit" className='mt-2 border btn btn-block btn-sm border-slate-700'>Login</button>
           </div>
         </form>
       </div>
     </div>
-  );
+  )
 }
 
 export default Login;
